@@ -1,0 +1,9 @@
+-Calcular y graficar DEP para A en {A.*exp(alfa),A.*exp(-alfa)}
+
+-Calcular y graficar Peb vs Eb/N0 para el caso de BPSK
+
+-Se modifica el BW al modificar la secuencia de amplitudes?
+
+-Calcular y graficar Peb vs Eb/N0 para el caso de las amplitudes modificadas. Cuanto es la degradación de Peb de el receptor óptimo de este sistema respecto a BPSK?
+
+-Que diferencia se encuentra entre ambas señalizaciones? V/D?
