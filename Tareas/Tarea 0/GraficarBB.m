@@ -14,7 +14,7 @@ function GraficarBB(A,Br)
   Sxx = DEPBB(f,T,A);
   #Gráfico Sxx.
   xlim([-window, window]);
-  plot(f,Sxx);
+  plot(f,Sxx,'linewidth',8);
   xlabel("f")
   ylabel("Sxx(f)")
 endfunction
