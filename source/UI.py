@@ -22,11 +22,11 @@ for i in range(1,CANTPLAT+1):
     plats.append([crear_frame_plat(i)])
 
 lay = [
-    [sg.Button("IK")],
     [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1,CANTPLAT+1)), default_value=1, enable_events=True, key="CantPlat", readonly=True)],
     plats,
     [sg.Canvas(key = "-CANVAS-")],
-    [sg.Button("OK")]
+    [sg.Button("OK")],
+    [sg.Image("logoUNLP.png", size=(75, 75)),sg.Image("logoGrIDComD.png", size=(75, 75))]
 ]
 
 ventana = sg.Window(title="Simulador de señales", layout=lay)
@@ -56,7 +56,7 @@ def manejar_evento():
     if(event == "CantPlat"):
         cod = ACTUALIZARDROPDOWN
         pars = values["CantPlat"]
-    elif(event == "IK"):
+    elif(event == "OK"):
         cod = ACTUALIZARCANVAS
     return cod, pars
 
