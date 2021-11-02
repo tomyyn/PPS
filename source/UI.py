@@ -1,10 +1,12 @@
 import PySimpleGUI as sg
+from signalGen import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 TERMINAR = 0
 NE = 1
 ACTUALIZARCANVAS = 2
 ACTUALIZARDROPDOWN = 3
+COMENZAR = 4
 
 CANTPLAT = 8
 
@@ -22,22 +24,15 @@ def crear_frame_plat(n):
 plats = []
 for i in range(1, CANTPLAT+1):
     plats.append([crear_frame_plat(i)])
-"""
-lay = [
-    [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1,CANTPLAT+1)), default_value=1, enable_events=True, key="CantPlat", readonly=True)],
-    plats,
-    [sg.Canvas(key="-CANVAS-")],
-    [sg.Button("OK")],
-    [sg.Image("logoUNLP.png", size=(75, 75)), sg.Image("logoGrIDComD.png", size=(75, 75))]
-]
-"""
+
 
 lay = [
     [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1,CANTPLAT+1)), default_value=1, enable_events=True, key="CantPlat", readonly=True)],
-    [sg.Frame("Atributos",layout=plats), sg.Canvas(key="-CANVAS-")],
-    [sg.Button("OK")],
+    [sg.Frame("Atributos", layout=plats), sg.Canvas(key="-CANVAS-",size=(600, 400))],
+    [sg.Text("Tiempo de simulación:"), sg.InputText(size=(15, 1), key="Tsim"), sg.Text("ms"),sg.Button("Comenzar")],
     [sg.Image("logoUNLP.png", size=(75, 75)), sg.Image("logoGrIDComD.png", size=(75, 75))]
 ]
+
 
 ventana = sg.Window(title="Simulador de señales", layout=lay)
 
@@ -69,7 +64,10 @@ def manejar_evento():
     if event == "CantPlat":
         cod = ACTUALIZARDROPDOWN
         pars = values["CantPlat"]
-    elif event == "OK":
-        cod = ACTUALIZARCANVAS
+    elif event == "Comenzar":
+        if values["Tsim"].isnumeric():
+            cod = COMENZAR
+        else:
+            cod = NE
     return cod, pars
 

@@ -87,9 +87,10 @@ def pulso_a_senal(msg, fp, dop = 0, deg = 1):
 
 
 
-fig = plt.figure()
+fig = plt.figure(figsize=(6,4), dpi=100)
 f = np.arange(0, 10000, 1)
 ax = fig.add_subplot(111)
+
 line1 = ax.plot(f, f)
 
 def fig_blanca():

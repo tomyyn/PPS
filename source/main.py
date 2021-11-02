@@ -12,11 +12,10 @@ dep = np.asarray(sig.welch(msg, fs, return_onesided=False))
 plt.plot(dep[0], dep[1])
 plt.show()
 """
-
 cod = NE
 while cod != 0:
     cod, pars = manejar_evento()
-    print("Pasó algo")
+    print("Pasó algo" + str(cod))
     if cod == ACTUALIZARDROPDOWN:
         actualizar_plats(pars)
         actualizar_canvas(fig_blanca())
