@@ -14,8 +14,9 @@ plt.show()
 """
 
 cod = NE
-while(cod != 0):
+while cod != 0:
     cod, pars = manejar_evento()
     print("Pasó algo")
-    if(cod == ACTUALIZARDROPDOWN):
+    if cod == ACTUALIZARDROPDOWN:
         actualizar_plats(pars)
+        actualizar_canvas(fig_blanca())
