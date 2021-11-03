@@ -1,8 +1,8 @@
 """from UI import *"""
 import numpy as np
-
 from signalGen import *
 from enviroment import *
+from plat import *
 """
 msg = generar_msg(3, 1)
 
@@ -24,3 +24,5 @@ while cod != 0:
         actualizar_canvas(fig_blanca())
 """
 print(pel(384000000, 8400000000))
+hola = Platform(10)
+print(hola.darTiempo())
