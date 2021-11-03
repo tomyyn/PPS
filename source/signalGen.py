@@ -11,7 +11,6 @@ fs = 44100
 bps = 400
 mpb = fs/bps
 
-A = 1
 alfa = 1.1
 a = cos(alfa)
 b = sin(alfa)
@@ -68,15 +67,8 @@ def msg_a_pulso(msg):
 
     return sparse.kron(msg, pulsoManchester).toarray()[0]
 
-def doppler():
-    print("TBD")
-    return 0
 
-def pel():
-    print("TBD")
-    return 0
-
-def pulso_a_senal(msg, fp, dop = 0, deg = 1):
+def pulso_a_senal(msg, fp, A):
     t = np.arange(0, tpor + msg.shape[0]/fs, 1/fs)
     portadora = A * np.cos(2 * np.pi * (fp+dop)*t) / deg + 0j
     portadora[npor:] = portadora[npor:]*msg*(a+1j*b)
