@@ -7,6 +7,8 @@ from math import cos
 from math import sin
 from math import ceil
 
+
+
 fs = 44100
 bps = 400
 mpb = fs/bps

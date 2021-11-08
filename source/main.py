@@ -1,4 +1,4 @@
-"""from UI import *"""
+from UI import *
 import numpy as np
 from signalGen import *
 from enviroment import *
@@ -14,7 +14,9 @@ print(msg.shape[0])
 dep = np.asarray(sig.welch(msg, fs, return_onesided=False))
 plt.plot(dep[0], dep[1])
 plt.show()
+"""
 
+plataformas = []
 cod = NE
 while cod != 0:
     cod, pars = manejar_evento()
@@ -22,7 +24,7 @@ while cod != 0:
     if cod == ACTUALIZARDROPDOWN:
         actualizar_plats(pars)
         actualizar_canvas(fig_blanca())
-"""
-print(pel(384000000, 8400000000))
-hola = Platform(10)
-print(hola.darTiempo())
+    if (cod == COMENZAR):
+            for i in range (int(pars["CantPlat"])):
+                plataformas.append(Platform(int(pars["A1"+str(i+1)]), int(pars["A2"+str(i+1)]), int(pars["A3"+str(i+1)])))
+

@@ -1,6 +1,5 @@
 class Platform:
-    def __init__(self, tmed):
+    def __init__(self, tmed, fp, P):
         self.tmed = tmed
-
-    def darTiempo(self):
-        return self.tmed
+        self.fp = fp
+        self.P = P
