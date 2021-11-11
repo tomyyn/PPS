@@ -40,7 +40,6 @@ hdr = np.concatenate((np.array(np.ones(15, dtype=int)),
 ))
 
 
-
 def num_a_bin(num, size = None):
     b = bin(num)[2:]
     vec = np.array([], dtype=int)
@@ -52,6 +51,24 @@ def num_a_bin(num, size = None):
 
     return vec
 
+def xor(B1, B2):
+    res = np.array([],dtype=int)
+    for i in range(8):
+        if(B1[i] == B2[i]):
+            res = np.append(res, 0)
+        else:
+            res = np.append(res, 1)
+    return res
+
+
+def cks(msg):
+    N = int(msg.shape[0]/8)
+    res = msg[0:8]
+    for i in range(1, N):
+        res = xor(res, msg[8*i:8*(i+1)])
+    return res
+
+
 def generar_msg(pID = randrange(cantID), N = randrange(1,9)):
 
 
@@ -62,25 +79,26 @@ def generar_msg(pID = randrange(cantID), N = randrange(1,9)):
     N = num_a_bin(N,4)
     pID = num_a_bin(pID, 20)
 
-    return np.concatenate((hdr, N, pID, msg))
+    msg = np.concatenate((hdr, N, pID, msg))
+    return np.concatenate((msg, cks(msg)))
+
 
 def msg_a_pulso(msg):
     msg = (msg * 2)-1
-
     return sparse.kron(msg, pulsoManchester).toarray()[0]
 
 
-def pulso_a_senal(msg, fp, A):
+def pulso_a_senal(msg, fp, A = 1):
     t = np.arange(0, tpor + msg.shape[0]/fs, 1/fs)
-    portadora = A * np.cos(2 * np.pi * (fp+dop)*t) / deg + 0j
-    portadora[npor:] = portadora[npor:]*msg*(a+1j*b)
+    portadora = A * np.cos(2 * np.pi * (fp)*t)
 
-    print(portadora[npor:])
+    """portadora[npor:] = portadora[npor:]*msg*(a+1j*b)"""
+    portadora[npor:] = portadora[npor:] +msg * (a * np.cos(2 * np.pi * (fp)*t[npor:]) + b * np.sin(2 * np.pi * (fp)*t[npor:]))
 
     return portadora
 
 
-
+"""
 fig = plt.figure(figsize=(6,4), dpi=100)
 f = np.arange(0, 10000, 1)
 ax = fig.add_subplot(111)
@@ -93,3 +111,4 @@ def fig_blanca():
 def sig_prueba():
     line1.set_ydata(f, 2 * np.sin(2 * np.pi * f))
     return fig
+"""

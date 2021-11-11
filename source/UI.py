@@ -32,7 +32,7 @@ for i in range(1, CANTPLAT+1):
 lay = [
     [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1,CANTPLAT+1)), default_value=8, enable_events=True, key="CantPlat", readonly=True)],
     [sg.Frame("Atributos", layout=plats), sg.Canvas(key="-CANVAS-",size=(600, 400))],
-    [sg.Text("Tiempo de simulación:"), sg.InputText(size=(15, 1), key="Tsim"), sg.Text("ms"),sg.Button("Comenzar"), sg.Text("Error: valores no válidos", key = "MSGERRORIP", visible= False, text_color="red")],
+    [sg.Text("Tiempo de simulación:"), sg.InputText(size=(15, 1), key="Tsim"), sg.Text("ms"),sg.Text("Archivo: "), sg.InputText(key="NOMBREARCHIVO", size=(20,1)) , sg.Button("Comenzar"), sg.Text("Error: valores no válidos", key = "MSGERRORIP", visible= False, text_color="red")],
     [sg.Image("logoUNLP.png", size=(75, 75)), sg.Image("logoGrIDComD.png", size=(75, 75))]
 ]
 
@@ -48,6 +48,7 @@ def check_inputs(values):
             cumple = values["A"+str(j)+str(i)].isnumeric()
             j = j + 1
         i=i+1
+
     return cumple
 
 def actualizar_plats(n):
@@ -78,7 +79,7 @@ def manejar_evento():
         cod = ACTUALIZARDROPDOWN
         pars = values["CantPlat"]
     elif event == "Comenzar":
-        if (values["Tsim"].isnumeric() and check_inputs(values)):
+        if (values["Tsim"].isnumeric() and values["NOMBREARCHIVO"] != "" and check_inputs(values)):
             cod = COMENZAR
             ventana.Element("MSGERRORIP").Update(visible=False)
             pars = values
