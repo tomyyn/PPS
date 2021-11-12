@@ -19,7 +19,7 @@ plt.show()
 scaled = np.int16(msg/np.max(np.abs(msg)) * 32767)
 write('test.wav', 44100, scaled)
 """
-
+"""
 print(xor(np.array([1, 1, 1, 1, 0, 0, 0, 0]), np.array([0, 1, 1, 1, 0, 0, 0, 0])))
 print(msg[0:8])
 print(msg)
@@ -34,5 +34,9 @@ while cod != 0:
         actualizar_canvas(fig_blanca())
     if (cod == COMENZAR):
             for i in range (int(pars["CantPlat"])):
-                plataformas.append(Platform(int(pars["A1"+str(i+1)]), int(pars["A2"+str(i+1)]), int(pars["A3"+str(i+1)])))
-"""
+                plataformas.append(Platform(int(pars["A1"+str(i+1)]), int(pars["A2"+str(i+1)]), int(pars["A3"+str(i+1)]), int(pars["A4"+str(i+1)]), pars["Tsim"]))
+            for i in plataformas:
+                print(i.tiempos)
+                while(i.proximo(1000000) != -1):
+                    print("a")
+""""""

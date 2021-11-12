@@ -98,7 +98,7 @@ def pulso_a_senal(msg, fp, A = 1):
     return portadora
 
 
-"""
+
 fig = plt.figure(figsize=(6,4), dpi=100)
 f = np.arange(0, 10000, 1)
 ax = fig.add_subplot(111)
@@ -111,4 +111,3 @@ def fig_blanca():
 def sig_prueba():
     line1.set_ydata(f, 2 * np.sin(2 * np.pi * f))
     return fig
-"""

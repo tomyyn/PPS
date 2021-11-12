@@ -10,17 +10,18 @@ COMENZAR = 4
 
 CANTPLAT = 8
 
-tamAtri = 10
-cantAtri = 3
+tamAtri = 9
+cantAtri = 4
 
 sg.theme("Light Blue 2")
 
 
 def crear_frame_plat(n):
     n = str(n)
-    lay = [[sg.Text("t medio de repetición:"), sg.InputText(key="A1"+n, size=tamAtri), sg.Text("ms"),
-            sg.Text("fs:"), sg.InputText(key="A2"+n, size=tamAtri), sg.Text("hz"),
-            sg.Text("P:"), sg.InputText(key="A3"+n, size=tamAtri), sg.Text("V^2"),]]
+    lay = [[sg.Text("t med rep[ms]:"), sg.InputText(key="A1"+n, size=tamAtri),
+            sg.Text("t de inicio[ms]:"), sg.InputText(key="A2" + n, size=tamAtri),
+            sg.Text("fs[hz]:"), sg.InputText(key="A3"+n, size=tamAtri),
+            sg.Text("P[V^2]:"), sg.InputText(key="A4"+n, size=tamAtri)]]
     return sg.Frame("Plataforma "+n, layout=lay, key="P"+n)
 
 
