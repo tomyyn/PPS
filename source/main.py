@@ -4,9 +4,9 @@ import numpy as np
 from signalGen import *
 from enviroment import *
 from plat import *
-
-msg = generar_msg(3, 1)
 """
+msg = generar_msg(3, 1)
+
 msg = msg_a_pulso(msg)
 msg = pulso_a_senal(msg, 8000, 1)
 
@@ -24,6 +24,8 @@ print(xor(np.array([1, 1, 1, 1, 0, 0, 0, 0]), np.array([0, 1, 1, 1, 0, 0, 0, 0])
 print(msg[0:8])
 print(msg)
 """
+
+"""
 plataformas = []
 cod = NE
 while cod != 0:
@@ -39,4 +41,15 @@ while cod != 0:
                 print(i.tiempos)
                 while(i.proximo(1000000) != -1):
                     print("a")
-""""""
+"""
+
+p = Platform(2, 1, 8000, 1, 10)
+msg, aux = p.proximo(1000)
+while(aux != -1):
+    print(1)
+    msg, aux = p.proximo(1000)
+
+#dep = np.asarray(sig.welch(msg, fs, return_onesided=False))
+#plt.plot(dep[0], dep[1])
+#plt.show()
+

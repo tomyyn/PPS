@@ -88,8 +88,8 @@ def msg_a_pulso(msg):
     return sparse.kron(msg, pulsoManchester).toarray()[0]
 
 
-def pulso_a_senal(msg, fp, A = 1):
-    t = np.arange(0, tpor + msg.shape[0]/fs, 1/fs)
+def pulso_a_senal(msg, fp,t, A = 1):
+    """t = np.arange(0, tpor + msg.shape[0]/fs, 1/fs)"""
     portadora = A * np.cos(2 * np.pi * (fp)*t)
 
     """portadora[npor:] = portadora[npor:]*msg*(a+1j*b)"""
@@ -98,7 +98,7 @@ def pulso_a_senal(msg, fp, A = 1):
     return portadora
 
 
-
+"""
 fig = plt.figure(figsize=(6,4), dpi=100)
 f = np.arange(0, 10000, 1)
 ax = fig.add_subplot(111)
@@ -111,3 +111,4 @@ def fig_blanca():
 def sig_prueba():
     line1.set_ydata(f, 2 * np.sin(2 * np.pi * f))
     return fig
+"""
