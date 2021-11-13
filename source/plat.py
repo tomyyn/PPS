@@ -21,10 +21,12 @@ class Platform:
             self.next = -1
 
     def simular(self):
-        msg = generar_msg(self.id, 1)
+        msg = generar_msg(self.id, N = randrange(1,9))
         msg = msg_a_pulso(msg)
         desp = self.next/1000
         t = np.arange(desp, tpor + msg.shape[0] / fs + desp, 1 / fs)
+        if(t.shape[0] % 2 == 1):
+            t = np.delete(t,-1)
         #Acá deberían calcularse los efectos del ambiente
         sim = msg = pulso_a_senal(msg, self.fp, t, self.A)
 

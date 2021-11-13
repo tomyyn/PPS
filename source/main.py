@@ -4,6 +4,7 @@ import numpy as np
 from signalGen import *
 from enviroment import *
 from plat import *
+from simulador import *
 """
 msg = generar_msg(3, 1)
 
@@ -42,12 +43,20 @@ while cod != 0:
                 while(i.proximo(1000000) != -1):
                     print("a")
 """
-
-p = Platform(2, 1, 8000, 1, 10)
+z = np.zeros(fs*10)
+p = Platform(1000, 500, 5000, 1, 5000)
+plataformas = []
+plataformas.append(p)
+simular(plataformas, 10000, "hola.wav")
+"""
+msgt = np.array(())
 msg, aux = p.proximo(1000)
 while(aux != -1):
-    print(1)
+    msgt = np.concatenate((msgt, msg))
     msg, aux = p.proximo(1000)
+"""
+#scaled = np.int16(msgt/np.max(np.abs(msgt)) * 32767)
+#write('test.wav', 44100, scaled)
 
 #dep = np.asarray(sig.welch(msg, fs, return_onesided=False))
 #plt.plot(dep[0], dep[1])

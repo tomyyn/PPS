@@ -91,7 +91,6 @@ def msg_a_pulso(msg):
 def pulso_a_senal(msg, fp,t, A = 1):
     """t = np.arange(0, tpor + msg.shape[0]/fs, 1/fs)"""
     portadora = A * np.cos(2 * np.pi * (fp)*t)
-
     """portadora[npor:] = portadora[npor:]*msg*(a+1j*b)"""
     portadora[npor:] = portadora[npor:] +msg * (a * np.cos(2 * np.pi * (fp)*t[npor:]) + b * np.sin(2 * np.pi * (fp)*t[npor:]))
 
