@@ -102,12 +102,19 @@ fig = plt.figure(figsize=(6,4), dpi=100)
 f = np.arange(0, 10000, 1)
 ax = fig.add_subplot(111)
 
-line1 = ax.plot(f, f)
-
-def fig_blanca():
-    return fig
+line1 = ax.plot(f, np.zeros(f.shape[0]))
+"""
 
 def sig_prueba():
-    line1.set_ydata(f, 2 * np.sin(2 * np.pi * f))
+    fig = plt.figure(figsize=(6, 4), dpi=100)
+    f = np.arange(0, 10000, 1)
+    ax = fig.add_subplot(111)
+
+    line1 = ax.plot(f, 2 * np.sin(2 * np.pi * f))
     return fig
-"""
+
+def actualizarFig(x,y):
+    fig = plt.figure(figsize=(6, 4), dpi=100)
+    ax = fig.add_subplot(111)
+    line1 = ax.plot(x,y)
+    return fig

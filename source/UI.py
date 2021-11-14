@@ -20,7 +20,7 @@ def crear_frame_plat(n):
     n = str(n)
     lay = [[sg.Text("t med rep[ms]:"), sg.InputText(key="A1"+n, size=tamAtri),
             sg.Text("t de inicio[ms]:"), sg.InputText(key="A2" + n, size=tamAtri),
-            sg.Text("fs[hz]:"), sg.InputText(key="A3"+n, size=tamAtri),
+            sg.Text("fp[hz]:"), sg.InputText(key="A3"+n, size=tamAtri),
             sg.Text("P[V^2]:"), sg.InputText(key="A4"+n, size=tamAtri)]]
     return sg.Frame("Plataforma "+n, layout=lay, key="P"+n)
 
@@ -31,9 +31,9 @@ for i in range(1, CANTPLAT+1):
 
 
 lay = [
-    [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1,CANTPLAT+1)), default_value=8, enable_events=True, key="CantPlat", readonly=True)],
-    [sg.Frame("Atributos", layout=plats), sg.Canvas(key="-CANVAS-",size=(600, 400))],
-    [sg.Text("Tiempo de simulación:"), sg.InputText(size=(15, 1), key="Tsim"), sg.Text("ms"),sg.Text("Archivo: "), sg.InputText(key="NOMBREARCHIVO", size=(20,1)) , sg.Button("Comenzar"), sg.Text("Error: valores no válidos", key = "MSGERRORIP", visible= False, text_color="red")],
+    [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1, CANTPLAT+1)), default_value=8, enable_events=True, key="CantPlat", readonly=True)],
+    [sg.Frame("Atributos", layout=plats), sg.Canvas(key="-CANVAS-", size=(600, 400))],
+    [sg.Text("Tiempo de simulación[ms]:"), sg.InputText(size=(15, 1), key="Tsim"), sg.Text("Archivo: "), sg.InputText(key="NOMBREARCHIVO", size=(20, 1)), sg.Text("ms"), sg.Button("Comenzar"), sg.Text("Error: valores no válidos", key = "MSGERRORIP", visible= False, text_color="red")],
     [sg.Image("logoUNLP.png", size=(75, 75)), sg.Image("logoGrIDComD.png", size=(75, 75))]
 ]
 

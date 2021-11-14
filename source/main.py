@@ -26,28 +26,29 @@ print(msg[0:8])
 print(msg)
 """
 
-"""
-plataformas = []
+
+
 cod = NE
 while cod != 0:
     cod, pars = manejar_evento()
     print("Pasó algo" + str(cod))
     if cod == ACTUALIZARDROPDOWN:
         actualizar_plats(pars)
-        actualizar_canvas(fig_blanca())
     if (cod == COMENZAR):
+            plataformas = []
             for i in range (int(pars["CantPlat"])):
                 plataformas.append(Platform(int(pars["A1"+str(i+1)]), int(pars["A2"+str(i+1)]), int(pars["A3"+str(i+1)]), int(pars["A4"+str(i+1)]), pars["Tsim"]))
-            for i in plataformas:
-                print(i.tiempos)
-                while(i.proximo(1000000) != -1):
-                    print("a")
+            dep = simular(plataformas, int(pars["Tsim"]), pars["NOMBREARCHIVO"]+".wav")
+            actualizar_canvas(actualizarFig(dep[0], dep[1]))
 """
 z = np.zeros(fs*10)
-p = Platform(1000, 500, 5000, 1, 5000)
+p = Platform(1000, 500, 5000, 4, 5000)
+q = Platform(800, 600, 10000, 1, 5000)
 plataformas = []
 plataformas.append(p)
-simular(plataformas, 10000, "hola.wav")
+plataformas.append(q)
+simular(plataformas, 5000, "hola.wav")
+"""
 """
 msgt = np.array(())
 msg, aux = p.proximo(1000)
