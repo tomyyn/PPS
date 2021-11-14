@@ -25,9 +25,10 @@ print(xor(np.array([1, 1, 1, 1, 0, 0, 0, 0]), np.array([0, 1, 1, 1, 0, 0, 0, 0])
 print(msg[0:8])
 print(msg)
 """
+hola = "Hola"
+hola = hola[:-2]
+print(hola)
 
-
-cargarDefaults()
 cod = NE
 while cod != TERMINAR:
     cod, pars = manejar_evento()
@@ -41,6 +42,8 @@ while cod != TERMINAR:
         dep = simular(plataformas, int(pars["Tsim"]), pars["NOMBREARCHIVO"]+".wav")
         actualizar_canvas(actualizarFig(dep[0], dep[1]))
         guardarDefaults(pars)
+    elif (cod == CARGAR):
+        cargarDefaults()
 
 """
 z = np.zeros(fs*10)

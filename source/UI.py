@@ -7,6 +7,7 @@ NE = 1
 ACTUALIZARCANVAS = 2
 ACTUALIZARDROPDOWN = 3
 COMENZAR = 4
+CARGAR = 5
 
 CANTPLAT = 8
 
@@ -33,7 +34,7 @@ for i in range(1, CANTPLAT+1):
 
 
 lay = [
-    [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1, CANTPLAT+1)), default_value=8, enable_events=True, key="CantPlat", readonly=True)],
+    [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1, CANTPLAT+1)), default_value=8, enable_events=True, key="CantPlat", readonly=True), sg.Button("Cargar última simulacion"), sg.Text("Error al cargar los valores", key = "MSGERRORLOAD", visible= False, text_color="red")],
     [sg.Frame("Atributos", layout=plats), sg.Canvas(key="-CANVAS-", size=(600, 400))],
     [sg.Text("Tiempo de simulación[ms]:"), sg.InputText(size=(15, 1), key="Tsim"), sg.Text("Archivo: "), sg.InputText(key="NOMBREARCHIVO", size=(20, 1)), sg.Text("ms"), sg.Button("Comenzar"), sg.Text("Error: valores no válidos", key = "MSGERRORIP", visible= False, text_color="red")],
     [sg.Image("logoUNLP.png", size=(75, 75)), sg.Image("logoGrIDComD.png", size=(75, 75))]
@@ -78,7 +79,7 @@ def manejar_evento():
     event, values = ventana.read()
     if event == sg.WIN_CLOSED:
         cod = TERMINAR
-    if event == "CantPlat":
+    elif event == "CantPlat":
         cod = ACTUALIZARDROPDOWN
         pars = values["CantPlat"]
     elif event == "Comenzar":
@@ -89,16 +90,37 @@ def manejar_evento():
         else:
             cod = NE
             ventana.Element("MSGERRORIP").Update(visible=True)
+    elif event == "Cargar última simulacion":
+        cod = 5
     return cod, pars
 
 def cargarDefaults():
     try:
         archi= open(archDefault, mode="r")
         lineas = archi.readlines()
-        print(len(lineas))
+        if len(lineas) < 35:
+            ventana.Element("MSGERRORLOAD").Update(visible=True)
+            return False
+
+        for i in range(len(lineas)):
+            lineas[i] = lineas[i][0:-1]
+
+        p = int(lineas[0])
+        ventana.Element("CantPlat").Update(value=p)
+        actualizar_plats(p)
+        k = 1
+        for i in range(1, CANTPLAT + 1):
+            for j in range(1, cantAtri + 1):
+                ventana.Element("A" + str(j) + str(i)).Update(value=lineas[k])
+                k=k+1
+        ventana.Element("Tsim").Update(value=lineas[k])
+        k=k+1
+        ventana.Element("NOMBREARCHIVO").Update(value=lineas[k])
         archi.close()
+        ventana.Element("MSGERRORLOAD").Update(visible=False)
         return True
-    except IOError:
+    except:
+        ventana.Element("MSGERRORLOAD").Update(visible=True)
         return False
 
 def escribir(archi, s):
@@ -109,10 +131,10 @@ def escribir(archi, s):
 
 def guardarDefaults(vals):
     archi = open(archDefault, "w")
-    escribir(archi,vals["CantPlat"])
+    escribir(archi, str(vals["CantPlat"]))
     for i in range(1, CANTPLAT + 1):
         for j in range(1, cantAtri + 1):
             escribir(archi, vals["A" + str(j) + str(i)])
     escribir(archi, vals["Tsim"])
-    escribir(archi,vals["NOMBREARCHIVO"])
+    escribir(archi, vals["NOMBREARCHIVO"])
     archi.close()
