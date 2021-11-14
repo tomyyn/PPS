@@ -27,19 +27,21 @@ print(msg)
 """
 
 
-
+cargarDefaults()
 cod = NE
-while cod != 0:
+while cod != TERMINAR:
     cod, pars = manejar_evento()
     print("Pasó algo" + str(cod))
     if cod == ACTUALIZARDROPDOWN:
         actualizar_plats(pars)
-    if (cod == COMENZAR):
-            plataformas = []
-            for i in range (int(pars["CantPlat"])):
-                plataformas.append(Platform(int(pars["A1"+str(i+1)]), int(pars["A2"+str(i+1)]), int(pars["A3"+str(i+1)]), int(pars["A4"+str(i+1)]), pars["Tsim"]))
-            dep = simular(plataformas, int(pars["Tsim"]), pars["NOMBREARCHIVO"]+".wav")
-            actualizar_canvas(actualizarFig(dep[0], dep[1]))
+    elif (cod == COMENZAR):
+        plataformas = []
+        for i in range (int(pars["CantPlat"])):
+            plataformas.append(Platform(int(pars["A1"+str(i+1)]), int(pars["A2"+str(i+1)]), int(pars["A3"+str(i+1)]), int(pars["A4"+str(i+1)]), pars["Tsim"]))
+        dep = simular(plataformas, int(pars["Tsim"]), pars["NOMBREARCHIVO"]+".wav")
+        actualizar_canvas(actualizarFig(dep[0], dep[1]))
+        guardarDefaults(pars)
+
 """
 z = np.zeros(fs*10)
 p = Platform(1000, 500, 5000, 4, 5000)

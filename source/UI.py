@@ -13,6 +13,8 @@ CANTPLAT = 8
 tamAtri = 9
 cantAtri = 4
 
+archDefault = "VP.txt"
+
 sg.theme("Light Blue 2")
 
 
@@ -89,3 +91,28 @@ def manejar_evento():
             ventana.Element("MSGERRORIP").Update(visible=True)
     return cod, pars
 
+def cargarDefaults():
+    try:
+        archi= open(archDefault, mode="r")
+        lineas = archi.readlines()
+        print(len(lineas))
+        archi.close()
+        return True
+    except IOError:
+        return False
+
+def escribir(archi, s):
+    print(s)
+    if s is None:
+        s = ""
+    archi.write(s+"\n")
+
+def guardarDefaults(vals):
+    archi = open(archDefault, "w")
+    escribir(archi,vals["CantPlat"])
+    for i in range(1, CANTPLAT + 1):
+        for j in range(1, cantAtri + 1):
+            escribir(archi, vals["A" + str(j) + str(i)])
+    escribir(archi, vals["Tsim"])
+    escribir(archi,vals["NOMBREARCHIVO"])
+    archi.close()
