@@ -18,6 +18,13 @@ archDefault = "VP.txt"
 
 sg.theme("Light Blue 2")
 
+def es_numero(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
 
 def crear_frame_plat(n):
     n = str(n)
@@ -34,7 +41,7 @@ for i in range(1, CANTPLAT+1):
 
 
 lay = [
-    [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1, CANTPLAT+1)), default_value=8, enable_events=True, key="CantPlat", readonly=True), sg.Button("Cargar última simulacion"), sg.Text("Error al cargar los valores", key = "MSGERRORLOAD", visible= False, text_color="red")],
+    [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1, CANTPLAT+1)), default_value=8, enable_events=True, key="CantPlat", readonly=True), sg.Button("Cargar última simulacion"), sg.Text("Error al cargar simulación", key = "MSGERRORLOAD", visible= False, text_color="red")],
     [sg.Frame("Atributos", layout=plats), sg.Canvas(key="-CANVAS-", size=(600, 400))],
     [sg.Text("Tiempo de simulación[ms]:"), sg.InputText(size=(15, 1), key="Tsim"), sg.Text("Archivo: "), sg.InputText(key="NOMBREARCHIVO", size=(20, 1)), sg.Text("ms"), sg.Button("Comenzar"), sg.Text("Error: valores no válidos", key = "MSGERRORIP", visible= False, text_color="red")],
     [sg.Image("logoUNLP.png", size=(75, 75)), sg.Image("logoGrIDComD.png", size=(75, 75))]
@@ -50,6 +57,7 @@ def check_inputs(values):
         j = 1
         while(cumple and j <= cantAtri):
             cumple = values["A"+str(j)+str(i)].isnumeric()
+            #cumple = es_numero(values["A"+str(j)+str(i)])
             j = j + 1
         i=i+1
 
@@ -84,6 +92,7 @@ def manejar_evento():
         pars = values["CantPlat"]
     elif event == "Comenzar":
         if (values["Tsim"].isnumeric() and values["NOMBREARCHIVO"] != "" and check_inputs(values)):
+        #if (es_numero(values["Tsim"]) and values["NOMBREARCHIVO"] != "" and check_inputs(values)):
             cod = COMENZAR
             ventana.Element("MSGERRORIP").Update(visible=False)
             pars = values

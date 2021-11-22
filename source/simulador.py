@@ -15,7 +15,7 @@ def simular(plats, tiempo, name = "test.wav"):
         while (aux != -1):
             print(aux)
             desp = tiempo_a_ind(aux)
-            msgt[desp:desp+msg.shape[0]] = msg
+            msgt[desp:desp+msg.shape[0]] =msgt[desp:desp+msg.shape[0]]+ msg
             msg, aux = i.proximo(tiempo)
 
     msgt = np.int16(msgt/np.max(np.abs(msgt)) * 32767)

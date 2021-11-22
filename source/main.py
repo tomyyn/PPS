@@ -5,6 +5,7 @@ from signalGen import *
 from enviroment import *
 from plat import *
 from simulador import *
+print(es_numero("10.5a"))
 """
 msg = generar_msg(3, 1)
 
@@ -38,7 +39,7 @@ while cod != TERMINAR:
     elif (cod == COMENZAR):
         plataformas = []
         for i in range (int(pars["CantPlat"])):
-            plataformas.append(Platform(int(pars["A1"+str(i+1)]), int(pars["A2"+str(i+1)]), int(pars["A3"+str(i+1)]), int(pars["A4"+str(i+1)]), pars["Tsim"]))
+            plataformas.append(Platform(int(pars["A1"+str(i+1)]), int(pars["A2"+str(i+1)]), int(pars["A3"+str(i+1)]), float(pars["A4"+str(i+1)]), pars["Tsim"]))
         dep = simular(plataformas, int(pars["Tsim"]), pars["NOMBREARCHIVO"]+".wav")
         actualizar_canvas(actualizarFig(dep[0], dep[1]))
         guardarDefaults(pars)
