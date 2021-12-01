@@ -88,32 +88,16 @@ def msg_a_pulso(msg):
     return sparse.kron(msg, pulsoManchester).toarray()[0]
 
 
-def pulso_a_senal(msg, fp,t, A = 1):
-    """t = np.arange(0, tpor + msg.shape[0]/fs, 1/fs)"""
-    portadora = A * np.cos(2 * np.pi * (fp)*t)
-    print("A es"+str(A))
-    """portadora[npor:] = portadora[npor:]*msg*(a+1j*b)"""
-    #portadora[npor:] = portadora[npor:] +msg * (a * np.cos(2 * np.pi * (fp)*t[npor:]) + b * np.sin(2 * np.pi * (fp)*t[npor:]))
-    portadora[npor:] =a * portadora[npor:] +msg * A * b * np.sin(2 * np.pi * (fp)*t[npor:])
+def pulso_a_senal(msg, fp,t, A = 1, IED = False):
+    if(not IED):
+        portadora = A * np.cos(2 * np.pi * (fp)*t)
+        portadora[npor:] =a * portadora[npor:] +msg * A * b * np.sin(2 * np.pi * (fp)*t[npor:])
+    else:
+        portadora = A * np.cos(2 * np.pi * (fp) * t)
+        portadora[npor:] =a * portadora[npor:] +msg * A * b * np.sin(2 * np.pi * (fp)*t[npor:])
+
     return portadora
 
-
-"""
-fig = plt.figure(figsize=(6,4), dpi=100)
-f = np.arange(0, 10000, 1)
-ax = fig.add_subplot(111)
-
-line1 = ax.plot(f, np.zeros(f.shape[0]))
-"""
-"""
-def sig_prueba():
-    fig = plt.figure(figsize=(6, 4), dpi=100)
-    f = np.arange(0, 10000, 1)
-    ax = fig.add_subplot(111)
-
-    line1 = ax.plot(f, 2 * np.sin(2 * np.pi * f))
-    return fig
-"""
 
 def actualizarFig(x,y):
     fig = plt.figure(figsize=(6, 4), dpi=100)
