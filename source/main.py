@@ -9,8 +9,7 @@ from signalGen import *
 from enviroment import *
 from plat import *
 from simulador import *
-print(es_numero("10.5a"))
-print(numpy.random.uniform(1,3.98107170553))
+
 cod = NE
 while cod != TERMINAR:
     cod, pars = manejar_evento()

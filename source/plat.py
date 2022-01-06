@@ -11,6 +11,9 @@ class Platform:
         self.id = randrange(cantID)
         self.IPEL = IPEL
         self.IED = IED
+        if(self.IED):
+            self.perf, self.i0d = par_doppler()
+            print(self.perf, self.i0d)
         auxt= int(ti)
         ts = int(ts)
         tmed = int(tmed)
@@ -28,17 +31,19 @@ class Platform:
     def simular(self):
         msg = generar_msg(self.id, N = randrange(1,9))
         msg = msg_a_pulso(msg)
-        #fps = int(random.gauss(self.fp, 3200))
         if(self.IPEL):
             As = pel(self.A)
         else:
             As = self.A
-        fps = self.fp
         desp = self.next/1000
         t = np.arange(desp, tpor + msg.shape[0] / fs + desp, 1 / fs)
         if(t.shape[0] % 2 == 1):
             t = np.delete(t,-1)
-        #Acá deberían calcularse los efectos del ambiente
+
+        if(self.IED):
+            fps = doppler(self.fp, t, self.i0d, self.perf)
+        else:
+            fps = self.fp
         sim = msg = pulso_a_senal(msg, fps, t, As)
 
         return sim

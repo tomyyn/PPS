@@ -89,9 +89,9 @@ def msg_a_pulso(msg):
 
 
 def pulso_a_senal(msg, fp,t, A = 1, IED = False):
-    if(not IED):
+    if(np.size(fp) > 1):
         portadora = A * np.cos(2 * np.pi * (fp)*t)
-        portadora[npor:] =a * portadora[npor:] +msg * A * b * np.sin(2 * np.pi * (fp)*t[npor:])
+        portadora[npor:] =a * portadora[npor:] +msg * A * b * np.sin(2 * np.pi * (fp[npor:])*t[npor:])
     else:
         portadora = A * np.cos(2 * np.pi * (fp) * t)
         portadora[npor:] =a * portadora[npor:] +msg * A * b * np.sin(2 * np.pi * (fp)*t[npor:])
