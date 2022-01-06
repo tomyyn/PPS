@@ -4,11 +4,13 @@ from signalGen import *
 from enviroment import *
 
 class Platform:
-    def __init__(self, tmed, ti, fp, Pm, ts):
+    def __init__(self, tmed, ti, fp, Pm, ts, IPEL, IED):
         self.fp = fp
         self.A = np.sqrt(2*Pm)
         self.tiempos = []
         self.id = randrange(cantID)
+        self.IPEL = IPEL
+        self.IED = IED
         auxt= int(ti)
         ts = int(ts)
         tmed = int(tmed)
@@ -23,15 +25,14 @@ class Platform:
         else:
             self.next = -1
 
-    def simular(self, IED = False, IPEL = False):
+    def simular(self):
         msg = generar_msg(self.id, N = randrange(1,9))
         msg = msg_a_pulso(msg)
         #fps = int(random.gauss(self.fp, 3200))
-        if(IPEL):
+        if(self.IPEL):
             As = pel(self.A)
         else:
             As = self.A
-        print(IPEL)
         fps = self.fp
         desp = self.next/1000
         t = np.arange(desp, tpor + msg.shape[0] / fs + desp, 1 / fs)
@@ -42,11 +43,11 @@ class Platform:
 
         return sim
 
-    def proximo(self, lim, IED = False, IPEL = False):
+    def proximo(self, lim):
         if(self.next == -1 or self.next > lim):
             return None, -1
         else:
-            sim = self.simular(IED,IPEL)
+            sim = self.simular()
             aux = self.next
             self.avanzar()
             return sim, aux

@@ -12,7 +12,7 @@ CARGAR = 5
 CANTPLAT = 8
 
 tamAtri = 9
-cantAtri = 4
+cantAtri = 6
 
 archDefault = "VP.txt"
 
@@ -31,7 +31,9 @@ def crear_frame_plat(n):
     lay = [[sg.Text("t med rep[ms]:"), sg.InputText(key="A1"+n, size=tamAtri),
             sg.Text("t de inicio[ms]:"), sg.InputText(key="A2" + n, size=tamAtri),
             sg.Text("fp[hz]:"), sg.InputText(key="A3"+n, size=tamAtri),
-            sg.Text("P[V^2]:"), sg.InputText(key="A4"+n, size=tamAtri)]]
+            sg.Text("P[V^2]:"), sg.InputText(key="A4"+n, size=tamAtri),
+            sg.Checkbox("PEL", enable_events=False, key="A5"+n),
+            sg.Checkbox("ED", enable_events=False, key="A6"+n)]]
     return sg.Frame("Plataforma "+n, layout=lay, key="P"+n)
 
 
@@ -43,7 +45,6 @@ for i in range(1, CANTPLAT+1):
 lay = [
     [sg.Text("Número de plataformas:"), sg.DropDown(list(range(1, CANTPLAT+1)), default_value=8, enable_events=True, key="CantPlat", readonly=True), sg.Button("Cargar última simulacion"), sg.Text("Error al cargar simulación", key = "MSGERRORLOAD", visible= False, text_color="red")],
     [sg.Frame("Atributos", layout=plats), sg.Canvas(key="-CANVAS-", size=(600, 400))],
-    [sg.Checkbox("Incluir efecto Doppler.", enable_events=False, key="IDOPPLER"), sg.Checkbox("Incluir degradación por espacio libre.", enable_events=False, key="IPEL")],
     [sg.Text("Tiempo de simulación[ms]:"), sg.InputText(size=(15, 1), key="Tsim"), sg.Text("Archivo: "), sg.InputText(key="NOMBREARCHIVO", size=(20, 1)), sg.Text(".wav"), sg.Button("Comenzar"), sg.Text("Error: valores no válidos", key = "MSGERRORIP", visible= False, text_color="red")],
     [sg.Image("logoUNLP.png", size=(75, 75)), sg.Image("logoGrIDComD.png", size=(75, 75))]
 ]
@@ -56,7 +57,7 @@ def check_inputs(values):
     i = 1
     while(cumple and i <= values["CantPlat"]):
         j = 1
-        while(cumple and j <= cantAtri):
+        while(cumple and j <= 4):
             cumple = values["A"+str(j)+str(i)].isnumeric()
             #cumple = es_numero(values["A"+str(j)+str(i)])
             j = j + 1
@@ -108,7 +109,7 @@ def cargarDefaults():
     try:
         archi= open(archDefault, mode="r")
         lineas = archi.readlines()
-        if len(lineas) < 35:
+        if len(lineas) < 51:
             ventana.Element("MSGERRORLOAD").Update(visible=True)
             return False
 
@@ -120,16 +121,17 @@ def cargarDefaults():
         actualizar_plats(p)
         k = 1
         for i in range(1, CANTPLAT + 1):
-            for j in range(1, cantAtri + 1):
+            for j in range(1, cantAtri + 1 - 2):
                 ventana.Element("A" + str(j) + str(i)).Update(value=lineas[k])
                 k=k+1
+            ventana.Element("A5"+str(i)).Update(value=lineas[k] == "True")
+            k = k + 1
+            ventana.Element("A6"+str(i)).Update(value=lineas[k] == "True")
+            k = k + 1
         ventana.Element("Tsim").Update(value=lineas[k])
         k=k+1
         ventana.Element("NOMBREARCHIVO").Update(value=lineas[k])
         k = k + 1
-        ventana.Element("IDOPPLER").Update(value=lineas[k] == "True")
-        k = k + 1
-        ventana.Element("IPEL").Update(value=lineas[k] == "True")
         archi.close()
         ventana.Element("MSGERRORLOAD").Update(visible=False)
         return True
@@ -149,10 +151,10 @@ def guardarDefaults(vals):
     archi = open(archDefault, "w")
     escribir(archi, str(vals["CantPlat"]))
     for i in range(1, CANTPLAT + 1):
-        for j in range(1, cantAtri + 1):
+        for j in range(1, cantAtri + 1-2):
             escribir(archi, vals["A" + str(j) + str(i)])
+        escribir(archi, str(vals["A5"+str(i)]))
+        escribir(archi, str(vals["A6"+str(i)]))
     escribir(archi, vals["Tsim"])
     escribir(archi, vals["NOMBREARCHIVO"])
-    escribir(archi, str(vals["IDOPPLER"]))
-    escribir(archi, str(vals["IPEL"]))
     archi.close()

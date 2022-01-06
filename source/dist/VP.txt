@@ -33,3 +33,5 @@
 
 20000
 pruebaExe
+False
+True
