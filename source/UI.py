@@ -1,13 +1,11 @@
 import PySimpleGUI as sg
-from signalGen import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 TERMINAR = 0
 NE = 1
-ACTUALIZARCANVAS = 2
-ACTUALIZARDROPDOWN = 3
-COMENZAR = 4
-CARGAR = 5
+ACTUALIZARDROPDOWN = 2
+COMENZAR = 3
+CARGAR = 4
 
 CANTPLAT = 8
 
@@ -17,13 +15,6 @@ cantAtri = 6
 archDefault = "VP.txt"
 
 sg.theme("Light Blue 2")
-
-def es_numero(str):
-    try:
-        float(str)
-        return True
-    except ValueError:
-        return False
 
 
 def crear_frame_plat(n):
@@ -57,9 +48,8 @@ def check_inputs(values):
     i = 1
     while(cumple and i <= values["CantPlat"]):
         j = 1
-        while(cumple and j <= 4):
+        while(cumple and j <= cantAtri-2):
             cumple = values["A"+str(j)+str(i)].isnumeric()
-            #cumple = es_numero(values["A"+str(j)+str(i)])
             j = j + 1
         i=i+1
 
@@ -83,7 +73,7 @@ def actualizar_canvas(fig):
 
 
 def manejar_evento():
-    cod = 1
+    cod = NE
     pars = None
 
     event, values = ventana.read()
@@ -93,15 +83,14 @@ def manejar_evento():
         cod = ACTUALIZARDROPDOWN
         pars = values["CantPlat"]
     elif event == "Comenzar":
-        if (values["Tsim"].isnumeric() and values["NOMBREARCHIVO"] != "" and check_inputs(values)):
+        if values["Tsim"].isnumeric() and values["NOMBREARCHIVO"] != "" and check_inputs(values):
             cod = COMENZAR
             ventana.Element("MSGERRORIP").Update(visible=False)
             pars = values
         else:
-            cod = NE
             ventana.Element("MSGERRORIP").Update(visible=True)
     elif event == "Cargar última simulacion":
-        cod = 5
+        cod = CARGAR
     return cod, pars
 
 
@@ -141,7 +130,6 @@ def cargarDefaults():
 
 
 def escribir(archi, s):
-    print(s)
     if s is None:
         s = ""
     archi.write(s+"\n")
