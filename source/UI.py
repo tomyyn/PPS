@@ -1,9 +1,11 @@
 """
-Interfaz de usuario
+Interfaz de usuario.
 """
 
 import PySimpleGUI as sg
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 #Órdenes para el programa principal
 TERMINAR = 0            #Salir del programa
@@ -70,8 +72,8 @@ lay = [
 ventana = sg.Window(title="Simulador de señales", layout=lay)
 
 """
-check_inputs: chequea que todos los valores ingresados como parámetros de las plataformas 
-sean correctos antes de comenzar la simulación. Este chequeo consta de verificar que los campos contengan números
+check_inputs: chequea que todos los valores ingresados como parámetros de las plataformas
+sean correctos antes de comenzar la simulación. Este chequeo consta de verificar que los campos contengan números.
 Parámetros:
     -values: diccionario que contiene los valores ingresados
 Salidas:
@@ -100,6 +102,21 @@ def actualizar_plats(n):
         ventana.Element("P"+str(i)).Update(visible=True)
     for i in range(n+1, CANTPLAT+1):
         ventana.Element("P"+str(i)).Update(visible=False)
+
+
+"""
+actualizarFig: genera un gráfico xy.
+Parámetros:
+    -x: contenido del eje x
+    -y: contenido del eje y
+Salidas:
+    -Figura
+"""
+def actualizarFig(x, y):
+    fig = plt.figure(figsize=(6, 4), dpi=100)
+    ax = fig.add_subplot(111)
+    ax.plot(x, y)
+    return fig
 
 
 """

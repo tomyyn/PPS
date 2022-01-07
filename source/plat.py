@@ -1,7 +1,6 @@
 """
-Clase utilizada para representar una plataforma
+Clase utilizada para representar una plataforma.
 """
-
 
 from signalGen import *
 from enviroment import *
