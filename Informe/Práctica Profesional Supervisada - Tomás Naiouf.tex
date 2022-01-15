@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,12pt]{article}
 
 \usepackage[headheight=0pt,headsep=0pt,footskip=3.5cm]{geometry}
 
@@ -84,8 +84,31 @@ Como se muestra, en primer lugar se transmite únicamente la señal portadora du
 
 \section{Implementación del simulador}
 \subsection{Concepto}
-\subsection{Funcionamiento del software implementado}
+Como fue mencionado, el objetivo de esta práctica fue el de implementar un simulador de bajo costo que imite las señales recibidas en vuelo por los satélites del sistema DCS, con el fin de utilizarse para probar receptores de estos. El principal motivo que impulsó esta tarea fue el hecho de que los simuladores disponibles en el mercado con las funcionalidades deseadas cuentan con costos prohibitivos.
+\par
+Este simulador está compuesto por una aplicación de escritorio (siendo esta  la principal tarea a realizar por el autor de este documento) capaz de generar las señales en banda base, las cuales son enviadas a través de la placa de audio de la computadora a un
+generador de RF para ser moduladas en FM (dado que esta es la modulación que utiliza el sistema DCS), con una frecuencia de portadora igual a la mínima frecuencia observable por el receptor a probar. 
+
+\begin{figure}[H]
+\centering
+\epsfig{file=FigSim.eps, width=12.0cm, height=7.5cm}
+\caption{Espectro de la simulación}
+\label{espectroSim}
+\end{figure}
+
+\par
+De esta forma, como se puede apreciar en la figura ~\ref{espectroSim}, el receptor "verá"  la parte derecha del espectro de la señal simulada modulada, permitiendo a la señal generada por la aplicación ser recibida por este. Cabe destacar que dado el hecho de que las frecuencias de muestreo de las placas de audio suele ser menor al rango de frecuencias de los receptores del sistema DCS (por ejemplo, una frecuencia de muestreo standar de estas placas es de 44,1Khz mientras que el receptor DCS del satélite SAC-C puede recibir en la banda de 401 a 403Mhz, osea, con un ancho de 2Mhz),  este simulador no permitirá probar este rango en su totalidad. Sin embargo, debería bastar para probar la capacidad de recepción de los receptores y su interacción con diferentes agentes que afectan a las señales que reciben.
+
 \subsection{Interfaz de usuario}
+
+
+\subsection{Funcionamiento del software implementado}
+
+\subsubsection{Efecto Doppler}
+
+\subsubsection{Perdida en espacio libre}
+
+
 \subsection{Pruebas}
 
 \section{Organización y experiencia}
