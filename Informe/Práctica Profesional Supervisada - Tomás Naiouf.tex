@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,10pt]{article}
 
 \usepackage[headheight=0pt,headsep=0pt,footskip=3.5cm]{geometry}
 
@@ -99,15 +99,54 @@ generador de RF para ser moduladas en FM (dado que esta es la modulación que ut
 \par
 De esta forma, como se puede apreciar en la figura ~\ref{espectroSim}, el receptor "verá"  la parte derecha del espectro de la señal simulada modulada, permitiendo a la señal generada por la aplicación ser recibida por este. Cabe destacar que dado el hecho de que las frecuencias de muestreo de las placas de audio suele ser menor al rango de frecuencias de los receptores del sistema DCS (por ejemplo, una frecuencia de muestreo standar de estas placas es de 44,1Khz mientras que el receptor DCS del satélite SAC-C puede recibir en la banda de 401 a 403Mhz, osea, con un ancho de 2Mhz),  este simulador no permitirá probar este rango en su totalidad. Sin embargo, debería bastar para probar la capacidad de recepción de los receptores y su interacción con diferentes agentes que afectan a las señales que reciben.
 
-\subsection{Interfaz de usuario}
 
+\subsection{Software implementado}
+Como fue mencionado, la principal tarea del autor dentro de el mencionado proyecto, fue la de implementar el software encargado de generar las señales en banda base. Cabe destacar que se tomó la desición de que las señales no sean generadas en tiempo real, sino
+que el programa genere un archivo en formato wav con estas, de modo que se pueda reproducir varias veces una simulación de forma fácil, y no se generen problemas para la generación en tiempo real debido a recursos computacionales. Además, la frecuencia de muestreo
+utilizada es de 44,1Khz, dado que esta se corresponde con una frecuencia estándar de las placas de audio, por donde se sacará esta señal.
 
-\subsection{Funcionamiento del software implementado}
+\subsubsection{Tecnología}
+La principal tecnología utilizada para este programa fue el lenguaje de programación Python. Esto se debe a que originalmente se iba a implementar con MATLAB u Octave, pero estos no brindaban herramientas satisfactorias para la interfaz de usuario. Por esto se optó por
+Python, donde se puede trabajar con vectores de forma similar a dichos lenguajes con la ayuda de librerías, a la vez que se tienen numerosas opciones para hacer interfaces sofisticadas.
+\par
+Adicionalmente, se utilizaron las siguientes librerías de Python:
+\begin{itemize}
+\item NumPy: permite trabajar con vectores de forma similar a MATLAB u Octave.
+\item SciPy: paquete de utilidades científicas varias, entre las que se encuentran las funciones Kron y Pwelch, además de la generación del archivo wav.
+\item math: funciones matemáticas escenciales.
+\item PySimpleGui: librería utilizada para realizar la interfaz de usuario.
+\item random: generación de números aleatorios.
+\item MatPlotLib: utilizada para generar gráficos, en este caso de de la DEP.
+\end{itemize}
 
-\subsubsection{Efecto Doppler}
+\subsubsection{Estructura de archivos}
+El código fuente del programa  está formado por los siguientes archivos:
+\begin{itemize}
+\item main: programa principal, encargado de llevar las acciones correspondientes a los eventos de la interfaz.
+\item UI: interfaz de usuario.
+\item plat: clase utilizada para representar una plataforma.
+\item enviroment: efectos ambientales.
+\item signalGen: generación de mensajes, pulsos y señales.
+\item simulador: motor de la simulación.
+\end{itemize}
+De desearse observar en detalle estos archivos, para así ver sus correspondientes funciones e implementación, esto se puede hacer visitando el siguiente repositorio de Git Hub: ACÁ VA EL LINK AL GIT HUB!!!!
 
-\subsubsection{Perdida en espacio libre}
+\subsubsection{Interfaz de usuario}
 
+\subsubsection{Funcionamiento}
+El software comienza a generar las señales en banda base en el momento en que el usuario presiona el botón "Comenzar", siempre y cuando los parámetros ingresados sean válidos. Este funciona de la siguiente manera:
+\par
+En primer lugar, se crean los objetos y estructuras necesarias para esta simulación. Esto se refiere a, por un lado, instanciar las plataformas a simular (cada una con sus parámetros correspondientes);  Por otro, crear un vector capaz de alojar toda la simulación (inicializado con todos sus valores en 0), teniendo este un número de elementos basado en la duración de esta y la frecuencia de muestreo, sumando un segundo en caso de que una transmisión comience cerca del final.
+\par
+En segundo lugar, se obtienen las simulaciones de todas las transmisiónes de una plataforma (cada transmisión constando de generar un mensaje cuyo contenido está formado por un número aleatorio de "escaleras", convertirlo en pulsos, y estos en la señal, teniendo en cuenta los efectos ambientales de ser necesario). y se suman al vector de la simulación con el desplazamiento correspondiente. Esto es realizado para cada una de las plataformas.
+\par
+Finalmente, una vez el vector de la simulación se encuentra completo con todas las transmisiones de las distintas plataformas, este es normalizado y finalmente escrito en un archivo wav  para su reproducción.
+\subsubsection{Implementación de efectos ambientales}
+Resulta pertinente el comentar como fueron implementados los efectos ambientales considerados en el simulador, cuyas implementaciones fueron pensadas para ser simples desde un punto de vista computacional:
+\begin{itemize}
+\item Perdida en espacio libre:
+\item Efecto Doppler: 
+\end{itemize}
 
 \subsection{Pruebas}
 
