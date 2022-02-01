@@ -8,14 +8,19 @@ from random import randrange
 
 tmaxDop = 60*15
 #Cantidad de perfiles de Doppler
-perfDop = 1
+perfDop = 3
 
 #Perfiles
-tim = -1 * (np.arange(0, tmaxDop-1/fs, 1 / fs) - tmaxDop/2)
+#tim = -1 * (np.arange(0, tmaxDop-1/fs, 1 / fs) - tmaxDop/2)
+tim = 1/(1+np.power(np.e, (np.arange(0, tmaxDop-1/fs, 1 / fs)-450)/60)) * 16000 - 8000
+tim2 = 1/(1+np.power(np.e, (np.arange(0, tmaxDop-1/fs, 1 / fs)-450)/40)) * 16000 - 8000
+tim3 = 1/(1+np.power(np.e, (np.arange(0, tmaxDop-1/fs, 1 / fs)-450)/80)) * 16000 - 8000
 
 #Crear lista con los perfiles
 perfs =[]
 perfs.append(tim)
+perfs.append(tim2)
+perfs.append(tim3)
 
 
 """

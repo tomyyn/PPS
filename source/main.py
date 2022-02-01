@@ -6,6 +6,7 @@ from UI import *
 from plat import *
 from simulador import *
 
+
 cod = NE
 #Mientras no se cierre la ventana
 while cod != TERMINAR:

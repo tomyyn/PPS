@@ -1,4 +1,4 @@
-1
+2
 1000
 0
 10000
@@ -7,15 +7,9 @@ False
 True
 1000
 0
-5000
+15000
 1
 False
-True
-
-
-
-
-False
 False
 
 
@@ -47,5 +41,11 @@ False
 
 False
 False
-4500
+
+
+
+
+False
+False
+9000
 asd
