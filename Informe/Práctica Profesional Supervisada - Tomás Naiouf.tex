@@ -32,6 +32,9 @@ de las señales recibidas en vuelo por los satélites pertenecientes al sistema 
 
 \section{Lugar de trabajo}
 \subsection{Descripción de la entidad}
+El GrIDComD (Grupo de Investigación y Desarrollo en Comunicación Digital),  es una Unidad de Investigación, Desarrollo y Transferencia localizada en la facultad de ingeniería de la Universidad Nacional de La Plata.
+\par
+Como su nombre lo indica, esta unidad tiene como interés las comunicaciones digitales, en particular aplicadas al sistema DCS y a sus satélites como puede ser el SAC-D. Adicionalmente, también trata temas relacionados con sistemas similares al DCS como el sistema SCD y ARGOS.
 \subsection{Organigrama}
 
 \section{Sistema DCS}
@@ -183,8 +186,9 @@ Esta simulación fue en primer lugar reproducida y sacada por un parlante para s
 \par
 Una vez corroborrado que la señal en banda base se podía escuchar y la forma de las transmisiones era correcta, se pasó a introducir la señal en el generador de RF visto en la figura ~\ref{Test} y modularla en AM, con el fin de apreciar la simulación en pasa banda desde una notebook con un dongle conectado y usando el software SDR\#. En primera instancia se trató de modular a 400Mhz, pero esto no dio buenos resultados dado que en frecuencias cercanas se encontraba un nivel apreciable de ruido. Debido a esto, se la movió la frecuencia de la modulación a  400,05Mhz, tal que las transmisiones de la simulación se encuentren centradas en 400,07Mhz. Esto último dio como resultado poder ver las transmisiones en el espectro, como se puede apreciar en \textcolor{blue}{\href {https://drive.google.com/file/d/1FieeQKkBJIfpKAu_4E4Ik1SV4s9q1Qw6/view?usp=sharing}{este}} video. Cabe destacar que también se pudo ver como la forma del espectro para las transmisiones era la deseada.
 \par
-Por último, se generó otra simulación donde se agregó una segunda plataforma centrada 10Khz que tuviera en cuenta el efecto Doppler. En  \textcolor{blue}{\href {https://drive.google.com/file/d/1FfI8xw6hzwwgcrzLQBHW1-g3nXa6ZuWW/view?usp=sharing}{este}} video se ve como se podían ver ambas. Adicionalmente, si bien en el video no se llega a notar, a lo largo de la simulación podía apreciarse como la segunda plataforma se iba desplazando en el espectro con cada simulación debido al efecto Doppler.
-
+Por último, se generó otra simulación donde se agregó una segunda plataforma centrada 10Khz que tuviera en cuenta el efecto Doppler. En  \textcolor{blue}{\href {https://drive.google.com/file/d/1FfI8xw6hzwwgcrzLQBHW1-g3nXa6ZuWW/view?usp=sharing}{este}} video se ve como se podían ver ambas. Adicionalmente, si bien en el video no se llega a notar, a lo largo de la simulación podía apreciarse como la segunda plataforma se iba desplazando en el espectro con cada transmisión debido al efecto Doppler.
+\par
+Vistos los resultados de las pruebas realizadas, se considera correcta la implementación del simulador.
 
 \section{Organización y experiencia}
 \subsection{Orden de trabajo}
@@ -225,4 +229,13 @@ muchas cosas resueltas, tanto en cuanto a tecnologías como a implementación, p
 \par
 En conclusión, considero que esta práctica me aportó muchísimas cosas que me acompañarán en el resto de mi vida profesional y me ayudarán a desenvolverme en mi carrera, sin duda una experiencia muy gratificante como la última antes de recibirme como ingeniero, y que 
 considero que mas que un final, es un comienzo.
+
+\begin{flushright}
+\begin{figure}[H]
+\centering
+\epsfig{file=FigFirma.eps, width=2cm, height=2cm}
+\raggedleft 
+\end{figure}
+\textbf{Tomás Naiouf}
+\end{flushright}
 \end{document}
