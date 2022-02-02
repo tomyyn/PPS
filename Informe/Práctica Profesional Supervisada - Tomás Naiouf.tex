@@ -12,6 +12,10 @@
 
 \usepackage{amssymb}
 
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{xcolor}
+
 \begin{document}
 \pagenumbering{gobble}
 \tableofcontents
@@ -129,7 +133,9 @@ El código fuente del programa  está formado por los siguientes archivos:
 \item signalGen: generación de mensajes, pulsos y señales.
 \item simulador: motor de la simulación.
 \end{itemize}
-De desearse observar en detalle estos archivos, para así ver sus correspondientes funciones e implementación, esto se puede hacer visitando el siguiente repositorio de Git Hub: ACÁ VA EL LINK AL GIT HUB!!!!
+De desearse observar en detalle estos archivos, para así ver sus correspondientes funciones e implementación, esto se puede hacer visitando el siguiente  repositorio de Git Hub: 
+\par
+\textcolor{blue}{\url{https://github.com/tomyyn/PPS/tree/master/source}}
 
 \subsubsection{Interfaz de usuario}
 En la figura ~\ref{UI} se puede apreciar una captura de la interfaz de usuario del programa.
@@ -145,7 +151,7 @@ En la parte superior se pueden apreciar dos elementos principales: en primer lug
 \par
 La parte central cuenta a su derecha con un panel para indicar los atributos de las plataformas a simular (mostrándose tantas como se indican en el correspondiente campo de la parte de arriba), estos son: tiempo medio de repetición en ms, tiempo de inicio en ms, frecuencia de portadora en hz, potencia en $V^2$ (cabe destacar que dado el hecho de que la simulación es normalizada, esto no representará su potencia real, sino que se usará principalmente para compararla con otras plataformas e indicar que tanto se verá afectada por la PEL) y si considera la pérdida en espacio libre y el efecto Doppler. A su derecha, esta parte presenta la DEP de una simulación luego de realizarla, esto permite apreciar principalmente que todo haya salido según lo indicado, y el corrimiento de Doppler.
 \par
-Finalmente, en la parte inferior se encuentran campos para indicar el tiempo total de simulación en ms, y el nombre del archivo donde se guardará esta. Adicionalmente se tiene el botón para comenzar la simulación, el cual de clickearse con parámetros vacíos o incorrectos (como puede ser una letra en el tiempo de simulación) indica que no se puede comenzar con un mensaje de error, el cual desaparece al clickearse el botón con parámetros completos y válidos.
+Finalmente, en la parte inferior se encuentran campos para indicar el tiempo total de simulación en ms, y el nombre del archivo donde se guardará esta. Adicionalmente se tiene el botón para comenzar la simulación, el cual de clickearse con parámetros vacíos o incorrectos (como puede ser una letra en el tiempo de simulación) indica que no se puede comenzar con un mensaje de error, el cual desaparece al comenzarse una simulación con parámetros completos y válidos.
 
 \subsubsection{Funcionamiento}
 El software comienza a generar las señales en banda base en el momento en que el usuario presiona el botón "Comenzar", siempre y cuando los parámetros ingresados sean válidos. Este funciona de la siguiente manera:
@@ -155,6 +161,7 @@ En primer lugar, se crean los objetos y estructuras necesarias para esta simulac
 En segundo lugar, se obtienen las simulaciones de todas las transmisiónes de una plataforma (cada transmisión constando de generar un mensaje cuyo contenido está formado por un número aleatorio de "escaleras", convertirlo en pulsos, y estos en la señal, teniendo en cuenta los efectos ambientales de ser necesario). y se suman al vector de la simulación con el desplazamiento correspondiente. Esto es realizado para cada una de las plataformas.
 \par
 Finalmente, una vez el vector de la simulación se encuentra completo con todas las transmisiones de las distintas plataformas, este es normalizado y finalmente escrito en un archivo wav  para su reproducción.
+
 \subsubsection{Implementación de efectos ambientales}
 Resulta pertinente el comentar como fueron implementados los efectos ambientales considerados en el simulador, cuyas implementaciones fueron pensadas para ser simples desde un punto de vista computacional:
 \begin{itemize}
@@ -163,6 +170,21 @@ Resulta pertinente el comentar como fueron implementados los efectos ambientales
 \end{itemize}
 
 \subsection{Pruebas}
+Para las pruebas del sistema, las cuales tuvieron lugar en el laboratorio, se generó en primer lugar una simulación con una sola plataforma cuya frecuencia de portadora era de 20khz. 
+
+\begin{figure}[H]
+\centering
+\epsfig{file=FigTest.eps, width=4.0cm, height=6.2cm}
+\caption{Osciloscopio y generador de RF utilizados en las pruebas}
+\label{Test}
+\end{figure}
+
+Esta simulación fue en primer lugar reproducida y sacada por un parlante para ser escuchada, lo que se realizó con éxito. Luego, se sacó esta señal por el jack de audio hacia el osciloscopio apreciable en la figura ~\ref{Test}, donde se verificó que las transmisiones tengan forma al comienzo de sinusoide debido a transmitir únicamente la portadora, y luego de señal modulada, lo que de nuevo tuvo éxito.
+\par
+Una vez corroborrado que la señal en banda base se podía escuchar y la forma de las transmisiones era correcta, se pasó a introducir la señal en el generador de RF visto en la figura ~\ref{Test} y modularla en AM, con el fin de apreciar la simulación en pasa banda desde una notebook con un dongle conectado y usando el software SDR\#. En primera instancia se trató de modular a 400Mhz, pero esto no dio buenos resultados dado que en frecuencias cercanas se encontraba un nivel apreciable de ruido. Debido a esto, se la movió la frecuencia de la modulación a  400,05Mhz, tal que las transmisiones de la simulación se encuentren centradas en 400,07Mhz. Esto último dio como resultado poder ver las transmisiones en el espectro, como se puede apreciar en \textcolor{blue}{\href {https://drive.google.com/file/d/1FieeQKkBJIfpKAu_4E4Ik1SV4s9q1Qw6/view?usp=sharing}{este}} video. Cabe destacar que también se pudo ver como la forma del espectro para las transmisiones era la deseada.
+\par
+Por último, se generó otra simulación donde se agregó una segunda plataforma centrada 10Khz que tuviera en cuenta el efecto Doppler. En  \textcolor{blue}{\href {https://drive.google.com/file/d/1FfI8xw6hzwwgcrzLQBHW1-g3nXa6ZuWW/view?usp=sharing}{este}} video se ve como se podían ver ambas. Adicionalmente, si bien en el video no se llega a notar, a lo largo de la simulación podía apreciarse como la segunda plataforma se iba desplazando en el espectro con cada simulación debido al efecto Doppler.
+
 
 \section{Organización y experiencia}
 \subsection{Orden de trabajo}
@@ -174,7 +196,7 @@ esta donde también se terminó de fijar la tecnología con la cual se terminó 
 La segunda etapa fue donde tomó lugar la implementación en sí. Durante este tiempo se fue implementando el simulador a la par de que se ultimaban detalles de este y se tenían revisiones periódicas con los directores para verificar el progreso y que se
 estaba implementando lo correcto.
 \par
-La tercera etapa fue en la cual se realizaron las pruebas al simulador. TBD...
+La tercera etapa fue en la cual se realizaron las pruebas al simulador, las cuales fueron detalladas anteriormente.
 \par
 Cabe destacar que en cada etapa se asumieron las responsabilidades correspondientes a las tareas mencionadas, teniendo un mínimo de progreso a cumplir entre cada reunión.
 \subsection{Organización de reuniones y comunicación}
