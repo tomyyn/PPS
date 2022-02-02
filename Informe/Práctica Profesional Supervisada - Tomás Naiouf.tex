@@ -132,6 +132,20 @@ El código fuente del programa  está formado por los siguientes archivos:
 De desearse observar en detalle estos archivos, para así ver sus correspondientes funciones e implementación, esto se puede hacer visitando el siguiente repositorio de Git Hub: ACÁ VA EL LINK AL GIT HUB!!!!
 
 \subsubsection{Interfaz de usuario}
+En la figura ~\ref{UI} se puede apreciar una captura de la interfaz de usuario del programa.
+
+\begin{figure}[H]
+\centering
+\epsfig{file=FigUI.eps, width=14.0cm, height=6.2cm}
+\caption{Interfaz de usuario}
+\label{UI}
+\end{figure}
+
+En la parte superior se pueden apreciar dos elementos principales: en primer lugar, un indicador del número de plataformas que se desean simular, en el cual se pueden indicar valores entre 1 y 8; En segundo lugar, un botón que permite cargar los parámetros de la última simulación realizada, lo que de no poder realizarse (potencialmente debido a no contarse con los datos de esta, almacenados en un archivo localizado en el directorio de la aplicación) se indica con un mensaje de error correspondiente.
+\par
+La parte central cuenta a su derecha con un panel para indicar los atributos de las plataformas a simular (mostrándose tantas como se indican en el correspondiente campo de la parte de arriba), estos son: tiempo medio de repetición en ms, tiempo de inicio en ms, frecuencia de portadora en hz, potencia en $V^2$ (cabe destacar que dado el hecho de que la simulación es normalizada, esto no representará su potencia real, sino que se usará principalmente para compararla con otras plataformas e indicar que tanto se verá afectada por la PEL) y si considera la pérdida en espacio libre y el efecto Doppler. A su derecha, esta parte presenta la DEP de una simulación luego de realizarla, esto permite apreciar principalmente que todo haya salido según lo indicado, y el corrimiento de Doppler.
+\par
+Finalmente, en la parte inferior se encuentran campos para indicar el tiempo total de simulación en ms, y el nombre del archivo donde se guardará esta. Adicionalmente se tiene el botón para comenzar la simulación, el cual de clickearse con parámetros vacíos o incorrectos (como puede ser una letra en el tiempo de simulación) indica que no se puede comenzar con un mensaje de error, el cual desaparece al clickearse el botón con parámetros completos y válidos.
 
 \subsubsection{Funcionamiento}
 El software comienza a generar las señales en banda base en el momento en que el usuario presiona el botón "Comenzar", siempre y cuando los parámetros ingresados sean válidos. Este funciona de la siguiente manera:
