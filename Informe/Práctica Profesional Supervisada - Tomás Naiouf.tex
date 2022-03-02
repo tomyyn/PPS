@@ -34,8 +34,15 @@ de las señales recibidas en vuelo por los satélites pertenecientes al sistema 
 \subsection{Descripción de la entidad}
 El GrIDComD (Grupo de Investigación y Desarrollo en Comunicación Digital),  es una Unidad de Investigación, Desarrollo y Transferencia localizada en la facultad de ingeniería de la Universidad Nacional de La Plata.
 \par
-Como su nombre lo indica, esta unidad tiene como interés las comunicaciones digitales, en particular aplicadas al sistema DCS y a sus satélites como puede ser el SAC-D. Adicionalmente, también trata temas relacionados con sistemas similares al DCS, como el sistema SCD y ARGOS.
+Como su nombre lo indica, esta unidad tiene como interés las comunicaciones digitales, en particular aplicadas al sistema DCS y a sus satélites como puede ser el SAC-D. Adicionalmente, también trata temas relacionados con sistemas similares al DCS, como el sistema SCD (Brasil) y ARGOS (internacional).
 \subsection{Organigrama}
+El laboratorio GrIDComD está formado por tres investigadores:
+\begin{itemize}
+\item \textbf{Ing. Carlotto, Jorge Adrián}:  Coordinador de GrIDComD, profesor adjunto (dedicacióne exclusiva) e integrante de la Comisión de la carrera de Ing. Electrónica.
+\item \textbf{Ing. Juárez, José María}:  Profesor adjunto (dedicación exclusiva). 
+\item \textbf{Ing. Sager, Gerardo Enrique}: Profesor titular (dedicación exclusiva) y director de la carrera de Ing. en Computación. 
+\end{itemize}
+En mi caso, mi rol constó de ser pasante a cargo de Carlotto y Juárez e implementar el simulador de señales recibidas por los satélites del sistema DCS.
 
 \section{Sistema DCS}
 
@@ -49,23 +56,33 @@ por tres segmentos:
 \begin{itemize}
 \item Segmento espacial: conformado por todos los elementos del sistema que se encuentran a bordo de satélites, este tiene como finalidad
 recibir y almacenar los datos registrados, además de dar la posibilidad de obtenerlos desde la tierra, no sin antes preprocesarlos.
-\item Plataformas: hace referencia a las plataformas que tienen como tarea recolectar datos de su entorno y transmitirlos a los satélites (DCP).
+\item Plataformas (DCP): hace referencia a las plataformas que tienen como tarea recolectar datos de su entorno y transmitirlos a los satélites.
 \item Segmento terrestre: compuesto por las facilidades que permiten descargar las lecturas almacenadas en los satélites y su disposición
 a los usuarios para su análisis mediante servidores en línea o bien otros tipos de soportes de distribución de datos.
 \end{itemize}
 De este modo, los datos son leídos por las plataformas, quienes los transmiten a los satélites, donde son preprocesados para luego ser descargados 
 y puesto a disposición de los usuarios mediante estaciones terrenas.
 
+\begin{figure}[H]
+\centering
+\epsfig{file=FigDCS.eps, width=15.5cm, height=9.5cm}
+\caption{Disposición del sistema DCS}
+\label{sistemaDCS}
+\end{figure}
+
+En la figura ~\ref{sistemaDCS} se puede apreciar la disposición de los elementos mencionados.
+
 
 \subsection{Características de las señales}
 Las señales transmitidas por las DCP poseen las siguientes características:
 \begin{itemize}
-\item Frecuencia de portadora de 401.55Mhz. Cabe destacar que si bien la posibilidad de colisión entre mensajes puede llevar a la pérdida de estos, 
-los corrimientos de Doppler según la ubicación de cada DCP puede ayudar a separarlos en frecuencia.
-\item Utiliza modulación PSK binaria con un $\theta$ de $\pm $ 1.1 rad $ \approx 63^o$.
+\item Frecuencia de portadora de 401.55MHz. Cabe destacar que si bien la posibilidad de colisión entre mensajes puede llevar a su pérdida, 
+los corrimientos Doppler debido al movimiento entre transmisor y receptor según la ubicación de cada DCP puede ayudar a separarlos en frecuencia.
+\item Se utiliza modulación PSK binaria con un $\theta$ de $\pm $ 1.1 rad $ \approx 63^o$.
 \item Tasa de bits de 400bps.
-\item Codificación Manchester.
-\item Intervalo entre transmisiones de entre 30 y 220 segundos.
+\item Forma de pulso Manchester.
+\item Intervalo entre transmisiones de cada plataforma de entre 30 y 220 segundos.
+\item Transmisión asincrónica.
 \end{itemize}
 
 \subsection{Formato del mensaje}
@@ -78,7 +95,7 @@ El formato del mensaje enviado por las DCP se puede apreciar en la figura ~\ref{
 \label{formatoMensaje}
 \end{figure}
 
-Como se muestra, en primer lugar se transmite únicamente la señal portadora durante 160ms, con el fin de que el receptor detecte la señal y se sincronice con esta. Luego, se envía el mensaje en si, el cual consta de los siguientes campos:
+Como se muestra, en primer lugar se transmite únicamente la señal portadora durante 160ms, con el fin de que el receptor detecte la señal y se sincronice con esta. Luego, se envía el mensaje, el cual consta de los siguientes campos:
 \begin{itemize}
 \item Sincronismo de bit: consta de 15 unos.
 \item Trama: 8 bits que sirven para indicar al receptor que se está recibiendo un mensaje del sistema y solucionar la ambigüedad de $\pi$ en la fase.
@@ -91,10 +108,10 @@ Como se muestra, en primer lugar se transmite únicamente la señal portadora du
 
 \section{Implementación del simulador}
 \subsection{Concepto}
-Como fue mencionado, el objetivo de esta práctica fue el de implementar un simulador de bajo costo que imite las señales recibidas en vuelo por los satélites del sistema DCS, con el fin de utilizarse para probar receptores de estos. El principal motivo que impulsó esta tarea fue el hecho de que los simuladores disponibles en el mercado con las funcionalidades deseadas cuentan con costos prohibitivos.
+El objetivo de esta práctica fue el de implementar un simulador de bajo costo que genere las señales recibidas en vuelo por los satélites del sistema DCS, con el fin de probar los receptores del sistema. El principal motivo que impulsó esta tarea fue el hecho de que los simuladores disponibles en el mercado con las funcionalidades son de alto costo.
 \par
-Este simulador está compuesto por una aplicación de escritorio (siendo esta  la principal tarea a realizar por el autor de este documento) capaz de generar las señales en banda base, las cuales son enviadas a través de la placa de audio de la computadora a un
-generador de RF para ser moduladas con una frecuencia de portadora igual a la mínima frecuencia observable por el receptor a probar. 
+Este simulador está compuesto por una aplicación de escritorio (siendo esta  la principal tarea a realizar) capaz de generar las señales en banda de audio, las cuales son enviadas a través de la placa de sonido de la computadora a un
+generador de RF para modular la señal con una frecuencia de portadora igual a la mínima frecuencia observable por el receptor a probar. 
 
 \begin{figure}[H]
 \centering
@@ -104,13 +121,21 @@ generador de RF para ser moduladas con una frecuencia de portadora igual a la m�
 \end{figure}
 
 \par
-De esta forma, como se puede apreciar en la figura ~\ref{espectroSim}, el receptor "verá"  la parte derecha del espectro de la señal simulada modulada, permitiendo a la señal generada por la aplicación ser recibida por este. Cabe destacar que dado el hecho de que las frecuencias de muestreo de las placas de audio suelen ser menores al rango de frecuencias de los receptores del sistema DCS (por ejemplo, una frecuencia de muestreo estándar de estas placas es de 44,1Khz mientras que el receptor DCS del satélite SAC-C puede recibir en la banda de 401 a 403Mhz, osea, con un ancho de 2Mhz),  este simulador no permitirá probar este rango en su totalidad (al menos en una sola prueba, ya que se podrían mover las señales generadas a lo largo del rango cambiando la frecuencia de modulación). Sin embargo, debería bastar para probar la capacidad de recepción de los receptores y su interacción con diferentes agentes que afectan a las señales que reciben.
+De esta forma, como se puede apreciar en la figura ~\ref{espectroSim}, el receptor "verá"  la parte derecha del espectro de la señal simulada modulada, permitiendo a la señal generada por la aplicación ser recibida por este. Cabe destacar que dado el hecho de que las frecuencias de muestreo de las placas de audio suelen ser menores al rango de frecuencias de los receptores del sistema DCS (por ejemplo, una frecuencia de muestreo estándar de estas placas es de 44,1KHz mientras que el receptor DCS del satélite SAC-C puede recibir en la banda de 401 a 403MHz, osea, con un ancho de 2MHz),  este simulador no permitirá probar este rango en su totalidad (al menos en una sola prueba, ya que se podrían mover las señales generadas a lo largo del rango cambiando la frecuencia de modulación). Sin embargo, debería bastar para probar la capacidad de recepción de los receptores y su interacción con diferentes agentes que afectan a las señales que reciben.
 
+\begin{figure}[H]
+\centering
+\epsfig{file=FigMontaje.eps, width=10.5cm, height=5cm}
+\caption{Diagrama de montaje del simulador}
+\label{montajeSim}
+\end{figure}
+
+La figura  ~\ref{montajeSim} muestra el montaje del simulador, en el cual se conecta la salida de audio de una computadora con el software implementado a la entrada de modulación externa de un simulador de RF cuya salida de señal en RF se conecta a una antena. De este modo, la señal en pasa banda se podrá recibir ya sea desde un receptor DCS o bien desde una computadora con un dispositivo que le permita realizar dicha tarea (como puede ser un dongle).
 
 \subsection{Software implementado}
 Como fue mencionado, la principal tarea del autor dentro del mencionado proyecto, fue la de implementar el software encargado de generar las señales en banda base. Cabe destacar que se tomó la decisión de que las señales no sean generadas en tiempo real, sino
 que el programa genere un archivo en formato wav con estas, de modo que una simulación se pueda reproducir varias veces con facilidad, y no se generen problemas para la generación en tiempo real debido a recursos computacionales. Además, la frecuencia de muestreo
-utilizada es de 44,1Khz, dado que esta se corresponde con una frecuencia estándar de las placas de audio, por donde se sacará esta señal.
+utilizada es de 44,1KHz, dado que esta se corresponde con una frecuencia estándar de las placas de audio, por donde se sacará esta señal.
 
 \subsubsection{Tecnología}
 La principal tecnología utilizada para este programa fue el lenguaje de programación Python. Esto se debe a que originalmente se iba a implementar con MATLAB u Octave, pero estos no brindaban herramientas satisfactorias para realizar la interfaz de usuario. Por esto se optó por
@@ -152,7 +177,7 @@ En la figura ~\ref{UI} se puede apreciar una captura de la interfaz de usuario d
 
 En la parte superior se pueden apreciar dos elementos principales: en primer lugar, un indicador del número de plataformas que se desean simular, en el cual se pueden indicar valores entre 1 y 8; En segundo lugar, un botón que permite cargar los parámetros de la última simulación realizada, lo que de no poder realizarse (potencialmente debido a no contarse con los datos de esta, almacenados en un archivo localizado en el directorio de la aplicación) se indica con un mensaje de error correspondiente.
 \par
-La parte central cuenta a su derecha con un panel para indicar los atributos de las plataformas a simular (mostrándose tantas como se indican en el correspondiente campo de la parte de arriba), estos son: tiempo medio de repetición en ms, tiempo de inicio en ms, frecuencia de portadora en hz, potencia en $V^2$ (cabe destacar que dado el hecho de que la simulación es normalizada, esto no representará su potencia real, sino que se usará principalmente para compararla con otras plataformas e indicar que tanto se verá afectada por la PEL) y si considera la pérdida en espacio libre y el efecto Doppler. A su derecha, esta parte presenta la DEP de una simulación luego de realizarla, esto permite apreciar principalmente que todo haya salido según lo indicado, y el corrimiento de Doppler.
+La parte central cuenta a su derecha con un panel para indicar los atributos de las plataformas a simular (mostrándose tantas como se indican en el correspondiente campo de la parte de arriba), estos son: tiempo medio de repetición en ms, tiempo de inicio en ms, frecuencia de portadora en Hz, potencia en $V^2$ (cabe destacar que dado el hecho de que la simulación es normalizada, esto no representará su potencia real, sino que se usará principalmente para compararla con otras plataformas e indicar que tanto se verá afectada por la PEL) y si considera la pérdida en espacio libre y el efecto Doppler. A su derecha, esta parte presenta la DEP de una simulación luego de realizarla, esto permite apreciar principalmente que todo haya salido según lo indicado, y el corrimiento de Doppler.
 \par
 Finalmente, en la parte inferior se encuentran campos para indicar el tiempo total de simulación en ms, y el nombre del archivo donde se guardará esta. Adicionalmente se tiene el botón para comenzar la simulación, el cual de clickearse con parámetros vacíos o incorrectos (como puede ser una letra en el tiempo de simulación) indica que no se puede comenzar con un mensaje de error, que desaparece al comenzarse una simulación con parámetros completos y válidos.
 
@@ -173,7 +198,7 @@ Resulta pertinente el comentar como fueron implementados los efectos ambientales
 \end{itemize}
 
 \subsection{Pruebas}
-Para las pruebas del sistema, las cuales tuvieron lugar en el laboratorio, se generó en primer lugar una simulación con una sola plataforma cuya frecuencia de portadora era de 20khz. 
+Para las pruebas del sistema, las cuales tuvieron lugar en el laboratorio, se generó en primer lugar una simulación con una sola plataforma cuya frecuencia de portadora era de 20kHz. 
 
 \begin{figure}[H]
 \centering
@@ -184,9 +209,9 @@ Para las pruebas del sistema, las cuales tuvieron lugar en el laboratorio, se ge
 
 Esta simulación fue en primer lugar reproducida y sacada por un parlante para ser escuchada, lo que se realizó con éxito. Luego, se sacó esta señal por el jack de audio hacia el osciloscopio apreciable en la figura ~\ref{Test}, donde se verificó que las transmisiones tengan forma al comienzo de sinusoide debido a transmitir únicamente la portadora, y luego de señal modulada, lo que de nuevo tuvo éxito.
 \par
-Una vez corroborado que la señal en banda base se podía escuchar y la forma de las transmisiones era correcta, se pasó a introducir la señal en el generador de RF visto en la figura ~\ref{Test} y modularla en AM (transmitiéndola a través de la antena conectada a su salida), con el fin de apreciar la simulación en pasa banda desde una notebook con un dongle conectado y usando el software SDR\#. En primera instancia se trató de modular a 400Mhz, pero esto no dio buenos resultados dado que en frecuencias cercanas se encontraba un nivel apreciable de ruido. Debido a esto, se movió la frecuencia de modulación a  400,05Mhz, tal que las transmisiones de la simulación se encuentren centradas en 400,07Mhz. Esto último dio como resultado poder ver las transmisiones en el espectro, como se puede apreciar en \textcolor{blue}{\href {https://drive.google.com/file/d/1FieeQKkBJIfpKAu_4E4Ik1SV4s9q1Qw6/view?usp=sharing}{este}} video. Cabe destacar que también se pudo ver como la forma del espectro para las transmisiones era la deseada.
+Una vez corroborado que la señal en banda base se podía escuchar y la forma de las transmisiones era correcta, se pasó a introducir la señal en el generador de RF visto en la figura ~\ref{Test} y modularla en AM (transmitiéndola a través de la antena conectada a su salida), con el fin de apreciar la simulación en pasa banda desde una notebook con un dongle conectado y usando el software SDR\#. En primera instancia se trató de modular a 400MHz, pero esto no dio buenos resultados dado que en frecuencias cercanas se encontraba un nivel apreciable de ruido. Debido a esto, se movió la frecuencia de modulación a  400,05MHz, tal que las transmisiones de la simulación se encuentren centradas en 400,07MHz. Esto último dio como resultado poder ver las transmisiones en el espectro, como se puede apreciar en \textcolor{blue}{\href {https://drive.google.com/file/d/1FieeQKkBJIfpKAu_4E4Ik1SV4s9q1Qw6/view?usp=sharing}{este}} video. Cabe destacar que también se pudo ver como la forma del espectro para las transmisiones era la deseada.
 \par
-Por último, se generó otra simulación donde se agregó una segunda plataforma centrada 10Khz que tuviera en cuenta el efecto Doppler. En  \textcolor{blue}{\href {https://drive.google.com/file/d/1FfI8xw6hzwwgcrzLQBHW1-g3nXa6ZuWW/view?usp=sharing}{este}} video se ve como se podían ver ambas. Adicionalmente, si bien en el video no se llega a notar, a lo largo de la simulación podía apreciarse como la segunda plataforma se iba desplazando en el espectro con cada transmisión debido al efecto Doppler.
+Por último, se generó otra simulación donde se agregó una segunda plataforma centrada 10KHz que tuviera en cuenta el efecto Doppler. En  \textcolor{blue}{\href {https://drive.google.com/file/d/1FfI8xw6hzwwgcrzLQBHW1-g3nXa6ZuWW/view?usp=sharing}{este}} video se ve como se podían ver ambas. Adicionalmente, si bien en el video no se llega a notar, a lo largo de la simulación podía apreciarse como la segunda plataforma se iba desplazando en el espectro con cada transmisión debido al efecto Doppler.
 \par
 Vistos los resultados de las pruebas realizadas, se considera correcta la implementación del simulador.
 
